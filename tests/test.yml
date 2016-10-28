@@ -1,0 +1,20 @@
+---
+- hosts: localhost
+  gather_facts: no
+
+  become: true
+  become_user: root
+
+  vars:
+    - inputcommand: ./sample_comlist.txt
+    - remtemp: "C:\\ansible_remtemp"
+    - savedir: fetched
+
+  pre_tasks:
+    - name: Pre get command list
+      raw: ./roles/fetch-command-out/tools/create_vars.pl "{{ inputcommand }}"
+      become: false
+      delegate_to: localhost
+
+  roles:
+    - fetch-wcommand-out

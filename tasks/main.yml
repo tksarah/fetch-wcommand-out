@@ -1,0 +1,15 @@
+- block:
+    - name: Create temp directory
+      win_file: path="{{ remtemp }}" state=directory
+
+    - include_vars: com_vars.yml
+    - include: run_out_fetch.yml
+      vars:
+        command: "{{ item.com }}"
+        savefile: "{{ remtemp }}\\{{ item.ofile }}"
+      with_items:
+        - "{{ lists }}"
+
+  always:
+      - name: Delete remote temp directory
+        win_file: path="{{ remtemp }}" state=absent
