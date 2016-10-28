@@ -3,7 +3,7 @@
 if($ARGV[0] eq ""){ print "Not found the file\n"; exit 1; }
 
 my $line;
-my $var_path="./roles/tksarah.fetch-command-out/vars/com_vars.yml";
+my $var_path="./roles/tksarah.fetch-wcommand-out/vars/com_vars.yml";
 
 open(R,"$ARGV[0]");
 	open(W,">$var_path");
