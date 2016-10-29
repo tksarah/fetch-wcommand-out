@@ -2,13 +2,12 @@
     - name: Create temp directory
       win_file: path="{{ remtemp }}" state=directory
 
-    - include_vars: com_vars.yml
     - include: run_out_fetch.yml
       vars:
-        command: "{{ item.com }}"
-        savefile: "{{ remtemp }}\\{{ item.ofile }}"
-      with_items:
-        - "{{ lists }}"
+        command: "{{ lookup('csvfile', '{{ item }} file={{ inputcommand }} delimiter=, col=1') }}"
+        savefile: "{{ remtemp }}\\{{ lookup('csvfile', '{{ item }} file={{ inputcommand }} delimiter=, col=2') }}"
+      with_lines:
+        - awk -F, '{ print $1 }' "{{ inputcommand }}"
 
   always:
       - name: Delete remote temp directory

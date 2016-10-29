@@ -19,7 +19,6 @@ Requirements
 ------------
 
 * Ansible version 2.0 <
-* Perl
 
 Role Variables
 --------------
@@ -32,30 +31,23 @@ savedir: "fetched"
 remtemp: "C:\\ansible_remtemp"
 ```
 
-**vars/com_vars.yml:**
-
-```
-lists:
-  - { com: 'Get-Date -displayhint tim'  , ofile:  'timeout.txt' }
-  - { com: '$PSVersionTable'  , ofile:  'psversion.txt' }
-```
-
-This vars file will be created with automatic when you run a playbook.
 All you have to do is create a text file as below.
 
 
 ```
-<command>,<output file>
-<command>,<output file>
-<command>,<output file>
+1,<command>,<output file>
+2,<command>,<output file>
+3,<command>,<output file>
 ```
 
 **Ex) sample_comlist.txt:**
 
 ```
-'Get-Date -displayhint tim' , 'timeout.txt'
-'$PSVersionTable' , 'psversion.txt'
+1,"Get-Date -displayhint tim","timeout.txt"
+2,"$PSVersionTable","psversion.txt"
 ```
+
+Notes: "commna" is not supported.
 
 Dependencies
 ------------
@@ -75,12 +67,6 @@ Example Playbook
     - { name: "inputcommand" , prompt: "Input your command list" , default: sample_comlist.txt , private: no }
     - { name: "remtemp" , prompt: "Input remote temp directory " , default: "C:\\ansible_remtemp" , private: no }
     - { name: "savedir" , prompt: "Input a save directory" , default: fetched , private: no }
-
-  pre_tasks:
-    - name: Pre get command list
-      raw: ./roles/tksarah.fetch-wcommand-out/tools/create_vars.pl "{{ inputcommand }}"
-      become: false
-      delegate_to: localhost
 
   roles:
     - tksarah.fetch-wcommand-out
