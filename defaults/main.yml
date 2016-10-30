@@ -1,2 +1,3 @@
 savedir: "fetched"
 remtemp: "C:\\ansible_remtemp"
+inputcommand: "sample_comlist.txt"
